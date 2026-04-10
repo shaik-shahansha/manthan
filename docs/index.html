@@ -301,6 +301,36 @@
     .tag.code { background: #ede9fe; color: var(--c-purple); }
     .tag.pub { background: #d1fae5; color: var(--c-green); }
 
+    /* ── creator ───────────────────────────────────────────────── */
+    #creator { background: var(--c-bg); }
+    .creator-card {
+      display: flex; align-items: center; gap: 48px;
+      background: var(--c-bg); border: 1.5px solid var(--c-border);
+      border-radius: var(--radius); padding: 48px;
+      box-shadow: var(--shadow-md); max-width: 820px; margin: 56px auto 0;
+    }
+    @media (max-width: 700px) { .creator-card { flex-direction: column; text-align: center; padding: 32px 24px; gap: 28px; } }
+    .creator-photo {
+      width: 120px; height: 120px; border-radius: 50%; object-fit: cover;
+      flex-shrink: 0; border: 3px solid var(--c-blue-light);
+      box-shadow: var(--shadow-sm);
+    }
+    .creator-info { flex: 1; }
+    .creator-name { font-size: 24px; font-weight: 800; letter-spacing: -.02em; margin-bottom: 4px; }
+    .creator-role {
+      font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+      color: var(--c-blue); margin-bottom: 16px; display: block;
+    }
+    .creator-bio { font-size: 15px; color: var(--c-text-2); line-height: 1.7; margin-bottom: 24px; }
+    .creator-links { display: flex; gap: 12px; flex-wrap: wrap; }
+    .creator-link {
+      display: inline-flex; align-items: center; gap: 6px;
+      font-size: 13px; font-weight: 600; color: var(--c-text-2);
+      text-decoration: none; padding: 7px 14px; border-radius: 8px;
+      border: 1.5px solid var(--c-border); transition: all .2s;
+    }
+    .creator-link:hover { border-color: var(--c-blue); color: var(--c-blue); transform: translateY(-1px); }
+
     /* ── cta banner ───────────────────────────────────────────── */
     #cta {
       background: linear-gradient(135deg, #0f172a 0%, #1e293b 100%);
@@ -360,6 +390,7 @@
       <li><a href="#architecture">Architecture</a></li>
       <li><a href="#novelty">Novelty</a></li>
       <li><a href="#benchmarks">Benchmarks</a></li>
+      <li><a href="#creator">Creator</a></li>
     </ul>
     <a href="https://huggingface.co/Shahansha/Manthan-1.5B" class="nav-cta" target="_blank" rel="noopener">
       🤗 Try the Model ↗
@@ -635,6 +666,33 @@
 </section>
 
 
+
+<!-- ── CREATOR ──────────────────────────────────────────────────────────────── -->
+<section id="creator">
+  <div class="container">
+    <div class="section-label">Built By</div>
+    <h2 class="section-title text-center">Meet the creator</h2>
+    <div class="creator-card">
+      <img src="https://shahansha.com/wp-content/uploads/2024/12/sha1.jpg" alt="Shahansha Shaik" class="creator-photo" />
+      <div class="creator-info">
+        <div class="creator-name">Shahansha Shaik</div>
+        <span class="creator-role">AI Researcher &amp; Open Source Builder</span>
+        <p class="creator-bio">
+          Passionate about pushing the boundaries of small language models. Built Genesis Manthan to prove that
+          tool-mediated reasoning — not verbal chain-of-thought — is the right paradigm for sub-2B models.
+          Working under the <a href="http://genesisagi.in" target="_blank" rel="noopener" style="color:var(--c-blue);">Genesis AGI</a> mission
+          to make capable, open agentic AI accessible on consumer hardware.
+        </p>
+        <div class="creator-links">
+          <a href="https://shahansha.com/" class="creator-link" target="_blank" rel="noopener">🌐 Website</a>
+          <a href="https://linkedin.com/in/shahansha" class="creator-link" target="_blank" rel="noopener">💼 LinkedIn</a>
+          <a href="https://huggingface.co/shahansha" class="creator-link" target="_blank" rel="noopener">🤗 HuggingFace</a>
+          <a href="https://github.com/shaik-shahansha" class="creator-link" target="_blank" rel="noopener">🐙 GitHub</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- ── CTA ────────────────────────────────────────────────────────────────── -->
 <section id="cta">
