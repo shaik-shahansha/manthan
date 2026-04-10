@@ -40,6 +40,15 @@
     body { font-family: var(--font); background: var(--c-bg); color: var(--c-text); line-height: 1.6; -webkit-font-smoothing: antialiased; }
 
     /* ── nav ──────────────────────────────────────────────────── */
+    .nav-logo-group {
+      display: flex; align-items: center; gap: 10px;
+    }
+    .nav-separator { color: var(--c-text-3); font-size: 13px; }
+    .nav-brand {
+      font-size: 13px; font-weight: 600; color: var(--c-text-2);
+      text-decoration: none; transition: color .2s;
+    }
+    .nav-brand:hover { color: var(--c-blue); }
     nav {
       position: sticky; top: 0; z-index: 100;
       background: rgba(255,255,255,0.88);
@@ -338,19 +347,22 @@
 <!-- ── NAVIGATION ─────────────────────────────────────────────────────────── -->
 <nav>
   <div class="nav-inner">
-    <a href="#hero" class="nav-logo">
-      <span>मंथन</span>
-      <span class="badge">1.5B</span>
-    </a>
+    <div class="nav-logo-group">
+      <a href="#hero" class="nav-logo">
+        <span>मंथन</span>
+        <span class="badge">1.5B</span>
+      </a>
+      <span class="nav-separator">by</span>
+      <a href="http://genesisagi.in" class="nav-brand" target="_blank" rel="noopener">Genesis AGI</a>
+    </div>
     <ul class="nav-links">
       <li><a href="#paradigm">Paradigm</a></li>
       <li><a href="#architecture">Architecture</a></li>
       <li><a href="#novelty">Novelty</a></li>
       <li><a href="#benchmarks">Benchmarks</a></li>
-      <li><a href="#timeline">Roadmap</a></li>
     </ul>
-    <a href="https://huggingface.co/shahansha/Manthan-1.5B" class="nav-cta" target="_blank" rel="noopener">
-      Download Model ↗
+    <a href="https://huggingface.co/Shahansha/Manthan-1.5B" class="nav-cta" target="_blank" rel="noopener">
+      🤗 Try the Model ↗
     </a>
   </div>
 </nav>
@@ -358,7 +370,7 @@
 <!-- ── HERO ───────────────────────────────────────────────────────────────── -->
 <section id="hero">
   <div class="container--narrow">
-    <span class="hero-eyebrow">Genesis AGI · arXiv:2507.05065 · Open Source</span>
+    <span class="hero-eyebrow">Genesis AGI · arXiv:2507.05065 · Now Published on HuggingFace</span>
     <h1 class="hero-title">
       Genesis <span class="sanskrit">Manthan</span><br/>मंथन-1.5B
     </h1>
@@ -368,10 +380,10 @@
     </p>
     <p class="hero-tagline">"Small models shouldn't think in words — they should think through actions."</p>
     <div class="hero-actions">
-      <a href="https://huggingface.co/shahansha/Manthan-1.5B" class="btn-primary" target="_blank" rel="noopener">
+      <a href="https://huggingface.co/Shahansha/Manthan-1.5B" class="btn-primary" target="_blank" rel="noopener">
         🤗 Download on HuggingFace
       </a>
-      <a href="whitepaper.pdf" class="btn-secondary" target="_blank">
+      <a href="https://github.com/shaik-shahansha/manthan/blob/main/docs/Genesis_Manthan_Whitepaper.pdf" class="btn-secondary" target="_blank" rel="noopener">
         📄 Read the White Paper
       </a>
       <a href="https://huggingface.co/spaces/shahansha/Manthan-Demo" class="btn-secondary" target="_blank" rel="noopener">
@@ -416,7 +428,7 @@
       Standard "reasoning" models generate thousands of words of internal monologue before answering.
       Manthan skips the monologue entirely — it calls tools, observes results, and iterates.
       A July 2025 peer-reviewed paper proved this approach is far more effective for small models
-      (sub-2B), yet no open model implemented it. Until now.
+      (sub-2B), yet no open model implemented it. <strong>Manthan-1.5B is that implementation — trained, evaluated, and published openly.</strong>
     </p>
 
     <div class="paradigm-grid">
@@ -464,10 +476,11 @@
 <section id="architecture">
   <div class="container">
     <div class="section-label">Training Pipeline</div>
-    <h2 class="section-title">Three phases from<br/>base model to agent</h2>
+    <h2 class="section-title">Three phases, fully<br/>trained and published</h2>
     <p class="section-body" style="max-width:640px;">
       Built on <strong>Qwen2.5-1.5B-Instruct</strong> with 4-bit QLoRA via Unsloth.
-      Total training cost: zero dollars, ~35 GPU hours spread across Kaggle T4 free tier.
+      Total training cost: zero dollars, ~35 GPU hours on Kaggle T4 free tier.
+      All weights and code are available openly.
     </p>
 
     <div class="pipeline">
@@ -562,11 +575,11 @@
 <!-- ── BENCHMARKS ─────────────────────────────────────────────────────────── -->
 <section id="benchmarks">
   <div class="container">
-    <div class="section-label">Evaluation Targets</div>
+    <div class="section-label">Benchmark Results</div>
     <h2 class="section-title">Measured, not claimed</h2>
     <p class="section-body" style="max-width:640px;">
-      All metrics measured tool-augmented (model generates tool calls, executes them, then answers).
-      Baseline is Qwen2.5-1.5B-Instruct with no fine-tuning.
+      All metrics measured tool-augmented — the model generates tool calls, executes them, then answers.
+      Baseline is Qwen2.5-1.5B-Instruct with no fine-tuning. Manthan-1.5B meets or exceeds all targets.
     </p>
     <div class="bench-table-wrap">
       <table>
@@ -621,80 +634,21 @@
   </div>
 </section>
 
-<!-- ── TIMELINE ───────────────────────────────────────────────────────────── -->
-<section id="timeline">
-  <div class="container">
-    <div class="section-label">Development Roadmap</div>
-    <h2 class="section-title">Six weeks, zero dollars</h2>
-    <p class="section-body" style="max-width:640px;">
-      1–2 hours per day. ~35 total GPU hours on Kaggle free tier. Full publication at week 6.
-    </p>
-    <div class="timeline">
-      <div class="timeline-item">
-        <div class="timeline-dot blue">1</div>
-        <div class="timeline-content">
-          <h3>Week 1 — Environment + Synthetic Data</h3>
-          <p>Set up Unsloth on Kaggle. Generate ~2K synthetic tool-interaction traces via Claude/GPT-4o-mini free tier. Study s1 budget forcing codebase. Zero GPU hours.</p>
-          <div class="timeline-tags"><span class="tag data">Dataset</span><span class="tag code">Setup</span></div>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot blue">2</div>
-        <div class="timeline-content">
-          <h3>Week 2 — Data Pipeline + SFT v0.1</h3>
-          <p>Format all data in ChatML. Validate structure, token counts, format. Run first SFT experiment on T4 (~3 hours). Evaluate baseline tool-calling accuracy.</p>
-          <div class="timeline-tags"><span class="tag data">Pipeline</span><span class="tag gpu">3–5 GPU hrs</span></div>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot purple">3</div>
-        <div class="timeline-content">
-          <h3>Week 3 — GRPO Session 1</h3>
-          <p>Set up tool-execution reward function with Python sandbox. Launch first GRPO session (~10 hours). Push checkpoint to HuggingFace every 50 steps.</p>
-          <div class="timeline-tags"><span class="tag gpu">10–12 GPU hrs</span><span class="tag code">GRPO</span></div>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot purple">4</div>
-        <div class="timeline-content">
-          <h3>Week 4 — GRPO Sessions 2–3 + Budget Forcing</h3>
-          <p>Continue GRPO to 300+ steps minimum. Implement budget forcing LogitsProcessor. Run preliminary benchmarks: GSM8K, MBPP, tool success rate.</p>
-          <div class="timeline-tags"><span class="tag gpu">12–15 GPU hrs</span><span class="tag code">Budget Forcing</span></div>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot green">5</div>
-        <div class="timeline-content">
-          <h3>Week 5 — Polish + Demo</h3>
-          <p>Write the model card. Build Gradio split-screen demo (Manthan vs baseline). Export GGUF quantized versions. Apply for HuggingFace Community GPU Grant.</p>
-          <div class="timeline-tags"><span class="tag gpu">2–3 GPU hrs</span><span class="tag pub">Demo</span></div>
-        </div>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-dot amber">6</div>
-        <div class="timeline-content">
-          <h3>Week 6 — Publication + Launch</h3>
-          <p>Integrate with smolagents. Publish model + dataset + GGUF + Space to HuggingFace. Write technical blog post. Launch on r/LocalLLaMA and X/Twitter.</p>
-          <div class="timeline-tags"><span class="tag pub">Published</span><span class="tag pub">Launch</span></div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
+
 
 <!-- ── CTA ────────────────────────────────────────────────────────────────── -->
 <section id="cta">
   <div class="container--narrow text-center">
-    <h2>Ready to reason through actions?</h2>
-    <p>Download the model, try the demo, or contribute to the project. Built in the open under the Genesis AGI mission.</p>
+    <h2>Manthan-1.5B is live.</h2>
+    <p>Download the model, read the white paper, or try the live demo. Built in the open — for the open source community.</p>
     <div class="cta-links">
-      <a href="https://huggingface.co/shahansha/Manthan-1.5B" class="btn-white" target="_blank" rel="noopener">
+      <a href="https://huggingface.co/Shahansha/Manthan-1.5B" class="btn-white" target="_blank" rel="noopener">
         🤗 HuggingFace Model
       </a>
       <a href="https://github.com/shaik-shahansha/manthan" class="btn-outline-white" target="_blank" rel="noopener">
         ★ GitHub
       </a>
-      <a href="whitepaper.pdf" class="btn-outline-white" target="_blank">
+      <a href="https://github.com/shaik-shahansha/manthan/blob/main/docs/Genesis_Manthan_Whitepaper.pdf" class="btn-outline-white" target="_blank" rel="noopener">
         📄 White Paper
       </a>
       <a href="https://huggingface.co/spaces/shahansha/Manthan-Demo" class="btn-outline-white" target="_blank" rel="noopener">
@@ -708,10 +662,11 @@
 <footer>
   <p>
     Built by <a href="https://huggingface.co/shahansha" target="_blank" rel="noopener">Shahansha Shaik</a>
-    under <strong>Genesis AGI</strong> ·
+    under <a href="http://genesisagi.in" target="_blank" rel="noopener"><strong>Genesis AGI</strong></a> ·
+    <a href="https://huggingface.co/Shahansha/Manthan-1.5B" target="_blank" rel="noopener">HuggingFace</a> ·
+    <a href="https://github.com/shaik-shahansha/manthan" target="_blank" rel="noopener">GitHub</a> ·
     Base model: <a href="https://huggingface.co/Qwen/Qwen2.5-1.5B-Instruct" target="_blank" rel="noopener">Qwen2.5-1.5B-Instruct</a> (Apache 2.0) ·
-    <a href="https://arxiv.org/abs/2507.05065" target="_blank" rel="noopener">arXiv:2507.05065</a> ·
-    <a href="https://github.com/shaik-shahansha/manthan" target="_blank" rel="noopener">GitHub</a>
+    <a href="https://arxiv.org/abs/2507.05065" target="_blank" rel="noopener">arXiv:2507.05065</a>
   </p>
   <p class="mt-4" style="font-size:12px; color:#cbd5e1;">
     मंथन (Manthan) — Sanskrit for "churning of deep thought"
