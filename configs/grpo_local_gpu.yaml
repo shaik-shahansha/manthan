@@ -1,0 +1,58 @@
+# ─── Local GPU GRPO Config — RTX 3500 Ada (12.9 GB VRAM) ────────────────────
+# Full GRPO reinforcement learning on local hardware.
+# Run: python src/training/grpo_train.py --config configs/grpo_local_gpu.yaml
+
+grpo:
+  model:
+    name: "./outputs/sft_local_gpu"   # Start from local SFT checkpoint
+    max_seq_length: 1024
+    dtype: "float16"
+    load_in_4bit: true
+
+  lora:
+    r: 16
+    lora_alpha: 32
+    lora_dropout: 0.05
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    use_gradient_checkpointing: "unsloth"
+
+  training:
+    num_train_epochs: 3
+    max_steps: -1
+    per_device_train_batch_size: 1
+    gradient_accumulation_steps: 8   # effective batch = 8 (GRPO needs small batch)
+    num_generations: 2               # Reduced from 4: each generation = GPU rollout, halves time
+    max_completion_length: 256       # Reduced from 512: traces rarely exceed 256 tokens (p95=423 but tool_call is ~150)
+    temperature: 0.9                 # High temperature for diverse GRPO rollouts
+    learning_rate: 5.0e-6
+    warmup_steps: 20
+    fp16: false               # Disabled: AMP fp16 conflicts with bnb 4-bit optimizer
+    seed: 42
+    logging_steps: 5
+    save_steps: 25
+    output_dir: "./outputs/grpo_local_gpu"
+
+  rewards:
+    tool_execution_weight: 0.5    # JSON parsability + code execution success
+    answer_correctness_weight: 0.4 # Exact / fuzzy match with ground truth
+    format_weight: 0.1            # Presence of <tool_call> block
+
+  sandbox:
+    timeout_seconds: 10
+    max_output_bytes: 10240       # 10 KB cap on code output
+
+  dataset:
+    path: "data/processed/reward_dataset.jsonl"
+    max_samples: null             # Use all 500 samples
+
+  hub:
+    push_to_hub: false
+    hub_model_id: "shahansha/Manthan-1.5B-grpo-v1"
+    push_every_n_steps: 25

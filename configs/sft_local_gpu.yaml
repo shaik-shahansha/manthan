@@ -1,0 +1,50 @@
+# ─── Local GPU SFT Config — RTX 3500 Ada (12.9 GB VRAM) ─────────────────────
+# Full SFT training on local hardware. No Kaggle-specific settings.
+# Run: python src/training/sft_train.py --config configs/sft_local_gpu.yaml
+
+sft:
+  model:
+    name: "unsloth/Qwen2.5-1.5B-Instruct-bnb-4bit"
+    max_seq_length: 1024
+    dtype: "float16"
+    load_in_4bit: true
+
+  lora:
+    r: 16
+    lora_alpha: 32            # Higher alpha = stronger LoRA signal
+    lora_dropout: 0.05
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    bias: "none"
+    use_gradient_checkpointing: "unsloth"
+
+  training:
+    num_train_epochs: 5       # More epochs on small local dataset
+    max_steps: -1
+    per_device_train_batch_size: 2
+    gradient_accumulation_steps: 8   # effective batch = 16
+    warmup_steps: 20
+    learning_rate: 2.0e-4
+    weight_decay: 0.01
+    lr_scheduler_type: "cosine"
+    fp16: false               # Disabled: bnb 4-bit compute handles FP16; AMP GradScaler conflicts
+    seed: 42
+    logging_steps: 5
+    save_steps: 50
+    dataloader_num_workers: 0
+    output_dir: "./outputs/sft_local_gpu"
+
+  dataset:
+    train_path: "data/processed/manthan_dataset"
+    text_field: "text"
+    max_samples: null         # Use all samples
+
+  hub:
+    push_to_hub: false        # Set to true and add HF_TOKEN to .env to push
+    hub_model_id: "shahansha/Manthan-1.5B-sft-v1"

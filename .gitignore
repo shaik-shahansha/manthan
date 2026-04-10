@@ -1,0 +1,40 @@
+# Virtual environments
+.venv/
+venv/
+
+# Python caches and build outputs
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+
+# Tool caches
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+.coverage.*
+coverage.xml
+htmlcov/
+
+# Editor and OS clutter
+.ipynb_checkpoints/
+Thumbs.db
+.DS_Store
+
+# Secrets and local env files
+.env
+.env.*
+!.env.example
+*.key
+
+# Local datasets and generated artifacts
+data/raw/*.jsonl
+data/processed/
+outputs/
+
+# Model artifacts
+*.safetensors
+*.bin
+*.gguf

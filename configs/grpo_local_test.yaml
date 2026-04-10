@@ -1,0 +1,51 @@
+grpo:
+  model:
+    name: "outputs/sft_local_test"
+    max_seq_length: 512
+    dtype: "float16"
+    load_in_4bit: true
+
+  lora:
+    r: 8
+    lora_alpha: 16
+    lora_dropout: 0.0
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+    use_gradient_checkpointing: "unsloth"
+
+  training:
+    num_train_epochs: 1
+    max_steps: 5
+    per_device_train_batch_size: 1
+    gradient_accumulation_steps: 2
+    num_generations: 2
+    max_new_tokens: 256
+    temperature: 0.7
+    learning_rate: 5.0e-6
+    warmup_steps: 1
+    min_steps: 5
+    fp16: false
+    seed: 42
+    logging_steps: 1
+    save_steps: 5
+    output_dir: "./outputs/grpo_local_test"
+
+  rewards:
+    tool_execution_weight: 0.5
+    answer_correctness_weight: 0.4
+    format_weight: 0.1
+
+  sandbox:
+    timeout_seconds: 10
+    max_output_bytes: 10240
+
+  dataset:
+    path: "data/processed/reward_dataset.jsonl"
+    max_samples: 8
+
+  hub:
+    push_to_hub: false
+    hub_model_id: "shahansha/Manthan-1.5B-grpo-local-test"

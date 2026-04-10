@@ -1,0 +1,55 @@
+grpo:
+  model:
+    name: "shahansha/Manthan-1.5B-sft-v0.1"  # Start from SFT checkpoint
+    max_seq_length: 1024
+    dtype: "float16"  # NEVER bfloat16 — T4 does not support it
+    load_in_4bit: true
+
+  lora:
+    r: 16
+    lora_alpha: 16
+    lora_dropout: 0.0
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    use_gradient_checkpointing: "unsloth"
+
+  training:
+    num_train_epochs: 1
+    per_device_train_batch_size: 1
+    gradient_accumulation_steps: 8
+    num_generations: 4         # GRPO samples this many completions per prompt
+    max_new_tokens: 512
+    temperature: 0.9
+    learning_rate: 5.0e-6
+    warmup_steps: 20
+    min_steps: 300             # Minimum steps for reward improvement
+    fp16: false  # disabled: bnb 4-bit compute_dtype handles efficiency; AMP fp16 can break optimizer scaling
+    seed: 42
+    logging_steps: 10
+    save_steps: 50             # Save every 50 steps — critical for Kaggle timeouts
+    output_dir: "./outputs/grpo_v1"
+
+  rewards:
+    tool_execution_weight: 0.5
+    answer_correctness_weight: 0.4
+    format_weight: 0.1
+
+  sandbox:
+    timeout_seconds: 10
+    max_output_bytes: 10240    # 10KB max output from code execution
+
+  dataset:
+    path: "shahansha/manthan-tool-reasoning-v1"
+    reward_subset: "reward"    # subset containing GSM8K/MBPP problems with ground truth
+
+  hub:
+    push_to_hub: true
+    hub_model_id: "shahansha/Manthan-1.5B-grpo-v0.1"
+    push_every_n_steps: 50     # Push checkpoint to Hub every N steps
+    # HF_TOKEN read from environment variable

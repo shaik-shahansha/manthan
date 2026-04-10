@@ -1,0 +1,46 @@
+sft:
+  model:
+    name: "unsloth/Qwen2.5-1.5B-Instruct-bnb-4bit"
+    max_seq_length: 1024
+    dtype: "float16"  # NEVER bfloat16 — T4 does not support it
+    load_in_4bit: true
+
+  lora:
+    r: 16
+    lora_alpha: 16
+    lora_dropout: 0.0
+    target_modules:
+      - q_proj
+      - k_proj
+      - v_proj
+      - o_proj
+      - gate_proj
+      - up_proj
+      - down_proj
+    bias: "none"
+    use_gradient_checkpointing: "unsloth"
+
+  training:
+    num_train_epochs: 3
+    per_device_train_batch_size: 4
+    gradient_accumulation_steps: 4
+    warmup_steps: 100
+    learning_rate: 2.0e-4
+    weight_decay: 0.01
+    lr_scheduler_type: "cosine"
+    fp16: true
+    seed: 42
+    logging_steps: 10
+    save_steps: 100
+    dataloader_num_workers: 0  # Keep 0 for Kaggle compatibility
+    output_dir: "./outputs/sft_v1"
+
+  dataset:
+    train_path: "shahansha/manthan-tool-reasoning-v1"
+    text_field: "text"
+    max_samples: null  # null = use all samples
+
+  hub:
+    push_to_hub: true
+    hub_model_id: "shahansha/Manthan-1.5B-sft-v0.1"
+    # HF_TOKEN read from environment variable
